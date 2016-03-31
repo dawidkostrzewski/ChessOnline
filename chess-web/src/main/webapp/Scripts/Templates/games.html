@@ -1,0 +1,38 @@
+<div class="col-lg-12" ng-init="init()">
+    <div class="marginleft-40">
+        <div class="col-lg-4 playerGames">
+            <div class="row">
+                <div class="col-lg-12" style="margin-bottom: 5px;">
+                    <input class="form-control" placeholder="Search" style="width: 70%; display: inline-block" data-ng-model="searchText">
+                    <div class="btn btn-success pull-right" style="width: 25%; display: inline-block">New game</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-group">
+                        <li class="list-group-item gameList" data-ng-repeat="game in Games  | filter:searchText | orderBy: 'id'" data-ng-click="startSelectedGame(game)">
+                            <div class="row">
+                                <div class="col-lg-5 leftMargin10 text-muted pull-left text-left" >#{{game.id}}</div>
+                                <div class="col-lg-5 rightMargin10 text-muted pull-right text-right">{{showDate(game.date)}}</div>
+                                <div class="col-lg-5 leftMargin10 pull-left text-uppercase">{{showOpponent(game)}}</div>
+                                <div class="col-lg-5 rightMargin10 pull-right text-uppercase text-right">{{showMove(game)}}</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="row">
+            <div class="col-lg-3">
+                <span id="gameHistory"></span>
+            </div>
+            <div class="col-lg-7" id="board"></div>
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+    </div>
+</div>
+

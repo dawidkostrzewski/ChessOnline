@@ -1,0 +1,25 @@
+<div class="col-lg-12" ng-init="init()">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <div class="row rankingHeader">
+            <div class="col-lg-3">LOGIN</div>
+            <div class="col-lg-2">WINS</div>
+            <div class="col-lg-2">LOSES</div>
+            <div class="col-lg-2">TIES</div>
+            <div class="col-lg-3">POINTS</div>
+        </div>
+        <ul class="list-group ranking">
+            <li class="list-group-item" data-ng-repeat="user in Users | orderBy : '-points' track by $index" data-ng-click="showUserProfile(user,$index+1)">
+                <div class="row">
+                    <div class="col-lg-3 alignCenter">{{user.login}}</div>
+                    <div class="col-lg-2 alignCenter">{{user.wins}}</div>
+                    <div class="col-lg-2 alignCenter">{{user.loses}}</div>
+                    <div class="col-lg-2 alignCenter">{{user.ties}}</div>
+                    <div class="col-lg-3 alignCenter">{{user.points}}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-2"></div>
+
+</div>

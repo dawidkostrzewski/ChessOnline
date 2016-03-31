@@ -1,0 +1,80 @@
+<div class="col-lg-12" ng-init="init()">
+    <div class="row">
+        <div class="col-lg-8"></div>
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12 header"><i class="fa fa-envelope-o"></i> Invites</div>
+                    </div>
+                    <div class="row list-group" style="overflow-y: auto; margin-bottom: 25px; max-height: 200px;">
+                        <div class="col-lg-12 myBack list-group-item" data-ng-repeat="invite in Invites" data-ng-if="invite.playable">
+                            <div class="col-lg-5">{{showDate(invite.creationTime)}}</div>
+                            <div class="col-lg-4 text-uppercase">{{getSenderLogin(invite.senderId)}}</div>
+                            <div class="col-lg-3"><div class="btn btn-success" data-ng-click="acceptInvite(invite)"><i class="fa fa-check"></i> Accept</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12 header"><i class="fa fa-comment-o"></i> Messages</div>
+                    </div>
+                    <div class="row" style="overflow-y: auto; margin-bottom: 10px; max-height: 350px;">
+                        <div class="col-lg-12" data-ng-repeat="message in Messages">
+                            <div class="panel panel-info" data-ng-if="message.type == 'System' || message.type == 'User' ">
+                                <div class="panel-heading">
+                                    <span>{{showDate(message.creationTime)}}</span>
+                                    <span class="pull-right" style="cursor: pointer;" data-ng-click="removeMessage(message)"><i class="fa fa-times"></i></span>
+                                    <span class="pull-right rightMargin10">{{getSenderLogin(message.senderId)}}</span>
+                                </div>
+                                <div class="panel-body">{{message.text}}</div>
+                            </div>
+                            <div class="panel panel-success" data-ng-if="message.type == 'Win'">
+                                <div class="panel-heading">
+                                    <span>{{showDate(message.creationTime)}}</span>
+                                    <span class="pull-right" data-toggle="modal" data-target="#myModal" style="cursor: pointer;"><i class="fa fa-times"></i></span>
+                                    <span class="pull-right rightMargin10">{{getSenderLogin(message.senderId)}}</span>
+                                </div>
+                                <div class="panel-body">{{message.text}}</div>
+                            </div>
+                            <div class="panel panel-danger" data-ng-if="message.type == 'Lost'">
+                                <div class="panel-heading">
+                                    <span>{{showDate(message.creationTime)}}</span>
+                                    <span class="pull-right" data-toggle="modal" data-target="#myModal" style="cursor: pointer;"><i class="fa fa-times"></i></span>
+                                    <span class="pull-right rightMargin10">{{getSenderLogin(message.senderId)}}</span>
+                                </div>
+                                <div class="panel-body">{{message.text}}</div>
+                            </div>
+                            <div class="panel panel-warning" data-ng-if="message.type == 'Tie'">
+                                <div class="panel-heading">
+                                    <span>{{showDate(message.creationTime)}}</span>
+                                    <span class="pull-right" data-toggle="modal" data-target="#myModal" style="cursor: pointer;"><i class="fa fa-times"></i></span>
+                                    <span class="pull-right rightMargin10">{{getSenderLogin(message.senderId)}}</span>
+                                </div>
+                                <div class="panel-body">{{message.text}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Remove this message?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-right leftMargin10" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
+                <button type="button" class="btn btn-success" data-ng-click="confirmRemove()"><i class="fa fa-check"></i> Yes</button>
+            </div>
+        </div>
+
+    </div>
+</div>
