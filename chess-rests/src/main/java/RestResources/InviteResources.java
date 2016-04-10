@@ -25,7 +25,7 @@ public class InviteResources {
     public Response createNewInvite(Invite invite){
         try{
             return Response.status(Response.Status.OK).entity(inviteServices.createNewInvite(invite)).build();
-        } catch (EJBTransactionRolledbackException e){
+        } catch (Exception e){
             return Response.serverError().entity(e.getMessage()).build();
         }
     }

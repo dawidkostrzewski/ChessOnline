@@ -16,17 +16,11 @@
             <groupId>Chess</groupId>
             <artifactId>chess-data</artifactId>
             <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>Chess</groupId>
-            <artifactId>chess-services</artifactId>
-            <version>1.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>Chess</groupId>
-            <artifactId>chess-sync</artifactId>
+            <artifactId>chess-services</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
         </dependency>

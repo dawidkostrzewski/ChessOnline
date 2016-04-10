@@ -24,7 +24,7 @@ $(document).ready(function(){
                                 console.log("Zalogowano");
                                 sessionStorage.setItem('actualUser',JSON.stringify(response.data));
                                 console.log(sessionStorage.getItem('actualUser'));
-                                window.location.replace("main.html");
+                                window.location.replace("main.jsp");
                             }
                             else{
                                 toastr.error("Wrong password! Please try again.")

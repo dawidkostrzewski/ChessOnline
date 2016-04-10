@@ -73,8 +73,7 @@ $(document).ready(function(){
             return "USER NOT FOUND";
         };
         $scope.acceptInvite = function(invite){
-            var gameId = null;
-
+            var message = null;
             var newGame = {
                 fen: globalContext.startFEN(),
                 opponentId: invite.senderId,
@@ -84,27 +83,30 @@ $(document).ready(function(){
             };
 
             sharedProperties.sendData({method: 'POST', url: globalContext.mainURL() + "/games/", data: newGame},function(response){
-                invite.gameId = response.id;
+                invite.gameId = response.data.id;
                 invite.playable = false;
-                gameId = response.id
+                message = {
+                    text: globalContext.acceptInviteText($scope.actualUser.login,response.data.id),
+                    creationtime: new  Date().getTime(),
+                    senderId: null,
+                    reciverId: invite.senderId,
+                    type: globalContext.messageTypes().system
+                };
             });
 
-            sharedProperties.sendData({method: 'PUT', url: globalContext.mainURL() + "/invites", data: invite},function(response){
-                console.log(response);
-                toastr.success("Accepted " + $scope.getSenderLogin(invite.senderId) + " invite.")
-            });
+            setTimeout(function(){
+                sharedProperties.sendData({method: 'PUT', url: globalContext.mainURL() + "/invites", data: invite},function(response){
+                    console.log(response);
+                    toastr.success("Accepted " + $scope.getSenderLogin(invite.senderId) + " invite.")
+                });
+            },200);
 
-            var message = {
-                text: globalContext.acceptInviteText($scope.actualUser.login,invite.gameId),
-                creationtime: new  Date().getTime(),
-                senderId: null,
-                reciverId: invite.senderId,
-                type: globalContext.messageTypes().system
-            };
+            setTimeout(function(){
+                sharedProperties.sendData({method: 'POST', url: globalContext.mainURL() + "/messages/", data: message},function(response){
+                    console.log(response);
+                });
+            },300);
 
-            sharedProperties.sendData({method: 'POST', url: globalContext.mainURL() + "/messages/", data: message},function(response){
-                console.log(response);
-            });
 
         };
         $scope.removeMessage = function(message){
@@ -198,14 +200,11 @@ $(document).ready(function(){
             var index = 0;
             for( var i=0; i<$scope.Games.length; i++){
                 if (game.id === $scope.Games[i].id){
-                    console.log("Founded");
                     index = i;
                 }
             }
             var myGame = new Chess();
-            myGame.load($scope.Games[index].fen);
-            console.log(myGame.pgn());
-            console.log(game.fen);
+            myGame.load($scope.Games[index].fen);;
             $scope.handleMove = function(source, target) {
 
                 var move = myGame.move({
@@ -219,7 +218,6 @@ $(document).ready(function(){
                         alert('Koniec gry');
                         return "snapback";
                     } else {
-                        console.log("Apply changes");
                         $scope.Games[index].fen = myGame.fen();
                         sharedProperties.sendData({method: 'PUT', url: globalContext.mainURL() + "/games/", data: $scope.Games[index]},function(response){
                             console.log(response);
@@ -369,7 +367,7 @@ $(document).ready(function(){
                 reciverId: user.id,
                 senderId: $scope.actualUser.id,
                 text: $('#messageText').val(),
-                type: globalContext.messageTypes.users
+                type: globalContext.messageTypes().users
             };
             sharedProperties.sendData({method: 'POST', url: globalContext.mainURL() + "/messages/", data: message}, function(){
                 toastr.success("Sent message to " + user.login);

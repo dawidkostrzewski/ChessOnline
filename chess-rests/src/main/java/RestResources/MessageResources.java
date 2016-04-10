@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.jms.JMSException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,6 +28,8 @@ public class MessageResources {
             return Response.status(Response.Status.OK).entity(messageServices.createNewMessage(message)).build();
         } catch (EJBTransactionRolledbackException e){
             return Response.serverError().entity(e.getMessage()).build();
+        } catch (JMSException e){
+            return  Response.serverError().entity(e.getMessage()).build();
         }
     }
 

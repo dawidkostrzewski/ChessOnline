@@ -8,11 +8,11 @@ import java.util.List;
 
 public abstract interface UserServices {
 
-    public User getUserById(Long id);
+    public User getUserById(Long id) throws EJBTransactionRolledbackException;
 
-    public User getUserByLogin(String login);
+    public User getUserByLogin(String login) throws EJBTransactionRolledbackException;
 
-    public List<User> getUsersList();
+    public List<User> getUsersList() throws EJBTransactionRolledbackException;
 
     public User addNewUser(User user) throws EJBTransactionRolledbackException;
 

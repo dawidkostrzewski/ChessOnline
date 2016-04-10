@@ -13,5 +13,5 @@ public abstract interface InviteServices {
 
     public List<Invite> getInvitesByReciverId(Long id);
 
-    public Invite createNewInvite(Invite invite) throws EJBTransactionRolledbackException;
+    public Invite createNewInvite(Invite invite) throws Exception;
 }

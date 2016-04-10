@@ -15,24 +15,23 @@ import java.util.List;
 @LocalBean
 public class GameServicesImpl implements GameServices {
 
-    @PersistenceContext(type= PersistenceContextType.EXTENDED)
+    @PersistenceContext
     private EntityManager em;
 
     @EJB
     private InviteServicesImpl inviteServices;
 
-    @Override
     public Game createNewGame(Game game) throws EJBTransactionRolledbackException {
         try{
             em.persist(game);
             em.flush();
+            System.out.println("CREATE GAME");
             return game;
         } catch (EJBTransactionRolledbackException e){
             throw new EJBTransactionRolledbackException(e.getMessage());
         }
     }
 
-    @Override
     public Game updateGame(Game game) throws EJBTransactionRolledbackException {
         try{
             em.merge(game);
@@ -43,7 +42,6 @@ public class GameServicesImpl implements GameServices {
         }
     }
 
-    @Override
     public List<Game> getGamesForUserByUserId(Long userId) {
         try{
             TypedQuery<Game> query = em.createNamedQuery("getGamesForUserByUserId",Game.class);

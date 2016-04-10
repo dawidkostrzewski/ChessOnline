@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.jms.JMSException;
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,22 +15,20 @@ import java.util.List;
 @LocalBean
 public class InviteServicesImpl implements InviteServices {
 
-    @PersistenceContext(type= PersistenceContextType.EXTENDED)
+    @PersistenceContext
     private EntityManager em;
 
+    @EJB
+    private SyncServiceImpl syncService;
 
-
-    @Override
     public Invite getInvite(Long id){
-        Invite invite = em.find(Invite.class,id);
-
-        return invite;
+        return em.find(Invite.class,id);
     }
 
-    @Override
     public Invite updateInvite(Invite invite) throws EJBTransactionRolledbackException{
         try{
             em.merge(invite);
+            System.out.println("UPDATE INVITE");
             em.flush();
             return invite;
         } catch (EJBTransactionRolledbackException e){
@@ -37,7 +36,6 @@ public class InviteServicesImpl implements InviteServices {
         }
     }
 
-    @Override
     public List<Invite> getInvitesByReciverId(Long id){
         try{
             TypedQuery<Invite> query = em.createNamedQuery("getInvitesByReciverIdOrderByTimeDesc",Invite.class);
@@ -48,14 +46,15 @@ public class InviteServicesImpl implements InviteServices {
         }
     }
 
-    @Override
-    public Invite createNewInvite(Invite invite) throws EJBTransactionRolledbackException {
+    public Invite createNewInvite(Invite invite) throws JMSException {
         try{
             em.persist(invite);
             em.flush();
+            System.out.println("CREATE INVITE");
+            syncService.sync(invite.getId());
             return invite;
-        } catch (EJBTransactionRolledbackException e){
-            throw new EJBTransactionRolledbackException(e.getMessage());
+        } catch (Exception e){
+            throw new JMSException(e.getMessage());
         }
     }
 }

@@ -14,32 +14,42 @@ import java.util.List;
 @LocalBean
 public class UserServicesImpl implements UserServices {
 
-    @PersistenceContext(type= PersistenceContextType.EXTENDED)
+    @PersistenceContext
     private EntityManager em;
 
     @Override
-    public User getUserById(Long id){
-        return em.find(User.class,id);
+    public User getUserById(Long id) throws EJBTransactionRolledbackException {
+        try{
+            return em.find(User.class,id);
+        } catch (NullPointerException e){
+            return null;
+        } catch (EJBTransactionRolledbackException e){
+            throw new EJBTransactionRolledbackException(e.getMessage());
+        }
     }
 
     @Override
-    public User getUserByLogin(String login){
+    public User getUserByLogin(String login) throws EJBTransactionRolledbackException {
         try{
             TypedQuery<User> query = em.createNamedQuery("getUserByLogin",User.class);
             query.setParameter("login",login);
             return query.getSingleResult();
         } catch (NoResultException e){
             return null;
+        } catch (EJBTransactionRolledbackException e) {
+            throw new EJBTransactionRolledbackException(e.getMessage());
         }
     }
 
     @Override
-    public List<User> getUsersList(){
+    public List<User> getUsersList() throws EJBTransactionRolledbackException {
         try{
             TypedQuery<User> query = em.createNamedQuery("getUsersListByPointsDescOrder",User.class);
             return query.getResultList();
         } catch (NoResultException e){
             return null;
+        } catch (EJBTransactionRolledbackException e) {
+            throw new EJBTransactionRolledbackException(e.getMessage());
         }
     }
 
