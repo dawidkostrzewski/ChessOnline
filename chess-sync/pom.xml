@@ -12,6 +12,14 @@
 
     <artifactId>chess-sync</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>Chess</groupId>
+            <artifactId>chess-data</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
     <build>
         <resources>
             <resource>

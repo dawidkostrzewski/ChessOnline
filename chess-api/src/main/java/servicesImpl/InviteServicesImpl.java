@@ -1,6 +1,7 @@
 package servicesImpl;
 
 import dataStore.Invite;
+import dataStore.SyncData;
 import services.InviteServices;
 
 import javax.ejb.EJB;
@@ -51,7 +52,8 @@ public class InviteServicesImpl implements InviteServices {
             em.persist(invite);
             em.flush();
             System.out.println("CREATE INVITE");
-            syncService.sync(invite.getReciverId());
+            SyncData syncData = new SyncData(invite.getClass().getSimpleName(),invite.getReciverId().toString());
+            syncService.sync(syncData);
             return invite;
         } catch (Exception e){
             throw new JMSException(e.getMessage());

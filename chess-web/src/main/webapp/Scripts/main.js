@@ -10,6 +10,7 @@ $(document).ready(function(){
    };
     $("body").click(function(){
         $('#Home').removeClass("animated infinite bounceIn active");
+        $('#Games').removeClass("animated infinite bounceIn active");
     });
     init = function(){
         var user = JSON.parse(sessionStorage.getItem('actualUser'));
@@ -38,11 +39,21 @@ $(document).ready(function(){
             if (!wasConnected && _connected)
             {
                 console.log(user);
-                var channel = "/ChessRests/sync/invites/" + user.id;
-                console.log(channel);
-                _cometd.subscribe(channel, function(){
+                var inviteChannel = "/ChessRests/sync/invites/" + user.id;
+                var messageChannel = "/ChessRests/sync/messages/" + user.id;
+                var gameChannel = "/ChessRests/sync/games/" + user.id;
+                console.log(inviteChannel);
+                _cometd.subscribe(inviteChannel, function(){
                     console.log("Subscribed Invites Channel");
                     $('#Home').addClass("animated infinite bounceIn active");
+                });
+                _cometd.subscribe(messageChannel, function(){
+                    console.log("Subscribed Message Channel");
+                    $('#Home').addClass("animated infinite bounceIn active");
+                });
+                _cometd.subscribe(gameChannel, function(){
+                    console.log("Subscribed Games Channel");
+                    $('#Games').addClass("animated infinite bounceIn active");
                 });
                 console.log('_metaConnect _connected')
             }
@@ -185,6 +196,9 @@ $(document).ready(function(){
     app.controller('navController', function($scope, sharedProperties){
         $scope.actualUser = sharedProperties.getActualUser();
         $scope.setActiveModule = function(el){
+            if(sessionStorage.getItem("actualModule") === el){
+                window.location.reload();
+            }
             $('li').removeClass('active');
             $('#'+el).addClass('active');
             sessionStorage.setItem('actualModule',el.toString());

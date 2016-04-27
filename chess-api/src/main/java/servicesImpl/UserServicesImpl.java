@@ -17,7 +17,7 @@ public class UserServicesImpl implements UserServices {
     @PersistenceContext
     private EntityManager em;
 
-    @Override
+    
     public User getUserById(Long id) throws EJBTransactionRolledbackException {
         try{
             return em.find(User.class,id);
@@ -28,7 +28,7 @@ public class UserServicesImpl implements UserServices {
         }
     }
 
-    @Override
+    
     public User getUserByLogin(String login) throws EJBTransactionRolledbackException {
         try{
             TypedQuery<User> query = em.createNamedQuery("getUserByLogin",User.class);
@@ -41,7 +41,7 @@ public class UserServicesImpl implements UserServices {
         }
     }
 
-    @Override
+    
     public List<User> getUsersList() throws EJBTransactionRolledbackException {
         try{
             TypedQuery<User> query = em.createNamedQuery("getUsersListByPointsDescOrder",User.class);
@@ -53,7 +53,7 @@ public class UserServicesImpl implements UserServices {
         }
     }
 
-    @Override
+    
     public User addNewUser(User user) throws EJBTransactionRolledbackException{
         try{
             em.persist(user);
@@ -64,7 +64,7 @@ public class UserServicesImpl implements UserServices {
         }
     }
 
-    @Override
+    
     public User updateUser(User user) throws EJBTransactionRolledbackException{
         try{
             em.merge(user);

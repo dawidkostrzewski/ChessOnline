@@ -1,5 +1,7 @@
 package syncServices;
 
+import dataStore.SyncData;
+
 import javax.jms.*;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -39,10 +41,9 @@ public class JMSClient implements MessageListener {
 
     public void onMessage(Message message) {
         try{
-            TextMessage massage = session.createTextMessage(message.getBody(String.class));
-            String channel = CHANEL_PREFIX + "invite" + CHANEL_SUFFIX;
+
             SyncService service = new SyncService();
-            service.push(channel, massage.getText());
+            service.push(message.getBody(SyncData.class));
         } catch(JMSException e){
             System.out.println(e.getMessage());
         }

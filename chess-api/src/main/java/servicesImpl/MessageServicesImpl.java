@@ -3,6 +3,7 @@ package servicesImpl;
 
 import dataStore.Invite;
 import dataStore.Message;
+import dataStore.SyncData;
 import services.MessageServices;
 
 import javax.ejb.EJB;
@@ -27,9 +28,10 @@ public class MessageServicesImpl implements MessageServices {
         try{
             em.persist(message);
             em.flush();
-            syncService.sync(message.getId());
+            SyncData syncData = new SyncData(message.getClass().getSimpleName(),message.getReciverId().toString());
+            syncService.sync(syncData);
             return message;
-        } catch (JMSException  e){
+        } catch (JMSException e){
             throw new JMSException(e.getMessage());
         } catch (EJBTransactionRolledbackException e){
             throw  new EJBTransactionRolledbackException(e.getMessage());

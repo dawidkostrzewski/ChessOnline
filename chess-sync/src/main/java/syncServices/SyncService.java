@@ -1,5 +1,6 @@
 package syncServices;
 
+import dataStore.SyncData;
 import org.cometd.bayeux.server.BayeuxServer;
 import org.cometd.bayeux.server.ConfigurableServerChannel;
 import org.cometd.bayeux.server.ServerChannel;
@@ -15,18 +16,19 @@ public class SyncService {
     public SyncService() {
     }
 
-    public void push(final String subChannel, String data) {
+    public void push(SyncData data) {
         BayeuxServer instance = BayeuxInitializer.getInitializer().getServer();
-        final String entityId = data;
-        instance.createChannelIfAbsent(CHANNEL_NAME + "/invites/" + entityId, new ConfigurableServerChannel.Initializer() {
+        final String entityId = data.getEntityId();
+        final String entityClass = data.getEntityClass().toLowerCase() + "s";
+        instance.createChannelIfAbsent(CHANNEL_NAME + "/" + entityClass + "/" + entityId, new ConfigurableServerChannel.Initializer() {
             public void configureChannel(ConfigurableServerChannel configurableServerChannel) {
-                System.out.println("CREATE " + CHANNEL_NAME + "/invites/" + entityId + " CHANNEL");
+                System.out.println("CREATE " + CHANNEL_NAME + "/" + entityClass + "/" + entityId + " CHANNEL");
             }
         });
-        ServerChannel channel = instance.getChannel(CHANNEL_NAME + "/invites/" + entityId);
+        ServerChannel channel = instance.getChannel(CHANNEL_NAME + "/" + entityClass + "/" + entityId);
         if (channel != null) {
             channel.publish(null, data);
-            System.out.println("Sync channel: " + "/invites/" + entityId);
+            System.out.println("Sync channel: " + "/" + entityClass + "/" + entityId);
         } else {
             System.out.println("NULL CHANNEL");
         }
