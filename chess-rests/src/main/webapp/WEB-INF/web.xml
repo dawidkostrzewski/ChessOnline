@@ -60,7 +60,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>initializer</servlet-name>
-        <url-pattern>/chess/sync/cometd/*</url-pattern>
+        <url-pattern>/sync/cometd/*</url-pattern>
     </servlet-mapping>
 
     <filter>

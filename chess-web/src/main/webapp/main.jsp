@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="Styles/style.css">
     <link rel="icon" href="./Styles/favicon.png">
     <link rel="stylesheet" href="Styles/toastr.min.css">
-    <script src="Scripts/jquery.js"></script>
+    <link rel="stylesheet" href="Styles/animate.css">
+    <script src="Scripts/jquery-2.1.4.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
     <script src="Scripts/angular.min.js"></script>
     <script src="Scripts/angular-ui-router.js"></script>
@@ -30,8 +31,11 @@
     <link rel="stylesheet" href="Styles/chessboard-0.3.0.css">
     <script src="Scripts/global.js"></script>
     <script src="Scripts/toastr.min.js"></script>
+    <script src="Scripts/cometd.js"></script>
+    <script src="Scripts/jquery.cometd.js"></script>
+
 </head>
-<body onload="setModule()">
+<body onload="init()">
 <nav class="navbar navbar-inverse" data-ng-controller="navController">
     <div class="container-fluid">
         <div class="navbar-header">

@@ -15,7 +15,7 @@ public class SyncServiceImpl implements SyncService {
     @Resource(lookup = "java:/ConnectionFactory")
     private ConnectionFactory connectionFactory;
 
-    @Resource(mappedName = "java:/jms/queue/SyncQueue")
+    @Resource(mappedName = "java:/queue/SyncQueue")
     private Queue syncQueue;
 
     public void sync(Long entityId) throws JMSException {

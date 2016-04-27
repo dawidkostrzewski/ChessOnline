@@ -9,7 +9,7 @@ import java.io.IOException;
 public class JMSClient implements MessageListener {
 
     private final static String CF_LOOKUP_NAME = "java:/ConnectionFactory";
-    private final static String QUEUE_LOOKUP_NAME = "java:/jms/queue/SyncQueue";
+    private final static String QUEUE_LOOKUP_NAME = "java:/queue/SyncQueue";
     private final static String CHANEL_SUFFIX = "s";
     private final static String CHANEL_PREFIX= "/";
 
@@ -40,7 +40,7 @@ public class JMSClient implements MessageListener {
     public void onMessage(Message message) {
         try{
             TextMessage massage = session.createTextMessage(message.getBody(String.class));
-            String channel = CHANEL_PREFIX + "invite" + CHANEL_SUFFIX + CHANEL_PREFIX + massage.getText();
+            String channel = CHANEL_PREFIX + "invite" + CHANEL_SUFFIX;
             SyncService service = new SyncService();
             service.push(channel, massage.getText());
         } catch(JMSException e){

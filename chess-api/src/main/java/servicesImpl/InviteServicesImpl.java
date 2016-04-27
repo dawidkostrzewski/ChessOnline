@@ -51,7 +51,7 @@ public class InviteServicesImpl implements InviteServices {
             em.persist(invite);
             em.flush();
             System.out.println("CREATE INVITE");
-            syncService.sync(invite.getId());
+            syncService.sync(invite.getReciverId());
             return invite;
         } catch (Exception e){
             throw new JMSException(e.getMessage());

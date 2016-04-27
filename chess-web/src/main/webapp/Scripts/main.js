@@ -8,6 +8,59 @@ $(document).ready(function(){
            $('#Home').addClass('active');
        }
    };
+    $("body").click(function(){
+        $('#Home').removeClass("animated infinite bounceIn active");
+    });
+    init = function(){
+        var user = JSON.parse(sessionStorage.getItem('actualUser'));
+        var _cometd = $.cometd,
+            _connected = false, _handshaked = false;
+        var url = "http://localhost:8080/ChessRests/sync/cometd";
+        _cometd.configure({
+            url : url,
+            logLevel : 'warning'
+        });
+        _cometd.addListener('/meta/handshake', _metaHandshake);
+        _cometd.addListener('/meta/connect', _metaConnect);
+
+        _cometd.handshake();
+        function _metaConnect(message)
+        {
+            if (_cometd.isDisconnected()) {
+                console.log('_metaConnect isDisconnected');
+                _connected = false;
+                return;
+            }
+
+            var wasConnected = _connected;
+            _connected = message.successful === true;
+
+            if (!wasConnected && _connected)
+            {
+                console.log(user);
+                var channel = "/ChessRests/sync/invites/" + user.id;
+                console.log(channel);
+                _cometd.subscribe(channel, function(){
+                    console.log("Subscribed Invites Channel");
+                    $('#Home').addClass("animated infinite bounceIn active");
+                });
+                console.log('_metaConnect _connected')
+            }
+            else if (wasConnected && !_connected)
+            {
+                console.log('_metaConnect _connectionError')
+            }
+        }
+
+        function _metaHandshake(handshake)
+        {
+            if (handshake.successful === true) {
+                _handshaked = true;
+                console.log('handshake successful')
+            }
+        }
+        setModule();
+    };
 
     var globalContext = global.context();
     toastr.options = globalContext.messageConfig();

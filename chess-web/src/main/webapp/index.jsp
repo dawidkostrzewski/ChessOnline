@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="Styles/style.css">
     <link rel="icon" href="./Styles/favicon.png">
     <link rel="stylesheet" href="Styles/toastr.min.css">
-    <script src="Scripts/jquery.js"></script>
+    <script src="Scripts/jquery-2.1.4.js"></script>
     <script src="Scripts/angular.min.js"></script>
     <script src="Scripts/angular-route.min.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
