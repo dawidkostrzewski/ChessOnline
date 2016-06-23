@@ -5,7 +5,7 @@ import dataStore.Invite;
 import javax.ejb.EJBTransactionRolledbackException;
 import java.util.List;
 
-public abstract interface InviteServices {
+public interface InviteServices {
 
     public Invite getInvite(Long id);
 
@@ -13,5 +13,11 @@ public abstract interface InviteServices {
 
     public List<Invite> getInvitesByReciverId(Long id);
 
+    public List<Invite> getInvitesBySenderId(Long id);
+
     public Invite createNewInvite(Invite invite) throws Exception;
+
+    public Invite refuseInvite(Long id) throws EJBTransactionRolledbackException;
+
+    public void deleteInvite(Long id) throws EJBTransactionRolledbackException;
 }

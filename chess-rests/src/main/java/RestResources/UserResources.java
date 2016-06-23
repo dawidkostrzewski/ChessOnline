@@ -60,4 +60,15 @@ public class UserResources {
             return Response.serverError().entity(e.getMessage()).build();
         }
     }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteUser(@PathParam("id") Long id){
+        try{
+            userServices.deleteUser(id);
+            return Response.status(Response.Status.OK).build();
+        } catch (EJBTransactionRolledbackException e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
+    }
 }

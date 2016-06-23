@@ -3,14 +3,18 @@ var global = global || {};
 global.context = function(){
     var MessageTypes = {
         users: "User",
-        system: "System"
+        system: "System",
+        invite: "Invite",
+        tie: "Tie",
+        lost: "Lost",
+        win: "Win"
     };
     return {
         startFEN: function(){
             return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
         },
         mainURL: function(){
-            return "http://localhost:8080/ChessRests";
+            return "http://"+ window.location.hostname + "/ChessRests";
         },
         messageConfig: function(){
             return toastr.options = {

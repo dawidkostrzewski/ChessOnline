@@ -51,22 +51,19 @@ body{
 }
 
 .header{
-    font-weight: 700;
     margin-bottom: 10px;
-    border-bottom: 2px solid #DDD;
-    padding-bottom: 6px;
-    padding-left: 0;
-    font-size: 20px;
+    border-bottom: 1px solid #d1d1cd;
+    padding: 0;
+    font-size: 22px;
 }
 .profileInfo{
-    font-size: 17px;
+    font-size: 16px;
     color: #222222;
-    margin-top: 10px;
 }
 .badge {
     display: inline-block;
     min-width: 10px;
-    padding: 7px 7px;
+    padding: 5px 4px;
     font-size: 16px;
     font-weight: 700;
     line-height: 1;
@@ -74,7 +71,7 @@ body{
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
-    background-color: #768fff;
+    background-color: #337ab7;
     border-radius: 6px;
     width: 60px;
 }
@@ -82,10 +79,10 @@ body{
     background-color: rgba(245, 245, 245, 0.78);
 }
 .leftMargin10{
-    margin-left: 10px;
+    margin-left: 5px;
 }
 .rightMargin10{
-    margin-right: 10px;
+    margin-right: 5px;
 }
 .rightMargin20{
     margin-right: 20px;
@@ -95,7 +92,6 @@ body{
 }
 .panel-body {
     padding: 15px;
-    font-size: 18px;
 }
 .panel-default > .panel-heading {
     color: #333;
@@ -143,8 +139,7 @@ a:focus {
     padding-left: 17%;
 }
 .playerGames{
-    margin-bottom: 10px;
-    max-height: 550px;
+    margin-top: 5px;
     overflow-y: auto;
 }
 a:focus, a:hover {
@@ -154,4 +149,57 @@ a:focus, a:hover {
 a {
     color: #555;
     text-decoration: none;
+}
+.myBtn {
+    padding: 3px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    width: 80px;
+}
+.navbar {
+    border-radius: 0;
+}
+.badgeOffline {
+    padding: 0px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #777;
+    border-radius: 20px;
+    margin-right: 5px;
+}
+.badgeOnline {
+    padding: 0px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #29e326;
+    border-radius: 20px;
+    margin-right: 5px;
+}
+
+.settingsIcon {
+    width: 30px;
+    text-align: center;
+}
+
+.myBlockBtn{
+    width: 162px;
+    height: 34px;
+    font-weight: 700;
+}
+.list-group-item.active{
+    background-color: #ededed;
+    border-color: #dddddd;
+    color: #333;
+}
+.list-group-item.active:hover{
+    background: #ededed;
+    border-color: #dddddd;
+    color: #333;
 }

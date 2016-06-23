@@ -1,7 +1,6 @@
 package servicesImpl;
 
 
-import dataStore.Invite;
 import dataStore.Message;
 import dataStore.SyncData;
 import services.MessageServices;
@@ -41,6 +40,16 @@ public class MessageServicesImpl implements MessageServices {
     public List<Message> getMessageListByReciverId(Long id) {
         try{
             TypedQuery<Message> query = em.createNamedQuery("getMessagesByReciverId",Message.class);
+            query.setParameter("userId",id);
+            return query.getResultList();
+        } catch (NoResultException e){
+            return null;
+        }
+    }
+
+    public List<Message> getMessageListBySenderId(Long id) {
+        try{
+            TypedQuery<Message> query = em.createNamedQuery("getMessagesBySenderId",Message.class);
             query.setParameter("userId",id);
             return query.getResultList();
         } catch (NoResultException e){

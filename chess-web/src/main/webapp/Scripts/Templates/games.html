@@ -1,37 +1,75 @@
-<div class="col-lg-12" ng-init="init()">
-    <div class="marginleft-40">
-        <div class="col-lg-4 playerGames">
+<div class="col-sm-12" ng-init="init()">
+        <div class="col-sm-3 marginleft-40">
             <div class="row">
-                <div class="col-lg-12" style="margin-bottom: 5px;">
-                    <input class="form-control" placeholder="Search" style="width: 70%; display: inline-block" data-ng-model="searchText">
-                    <div class="btn btn-success pull-right" style="width: 25%; display: inline-block">New game</div>
+                <div class="col-sm-12" style="margin-bottom: 5px;">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <input class="form-control" placeholder="Search" data-ng-model="searchText">
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="btn btn-success pull-right" data-ng-click="createNewGame()" style="font-weight: 700;">New game</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
+            <div id="playerGames" class="row playerGames">
+                <div  class="col-sm-12">
                     <ul class="list-group">
-                        <li class="list-group-item gameList" data-ng-repeat="game in Games  | filter:searchText | orderBy: 'id'" data-ng-click="startSelectedGame(game)">
+                        <li class="list-group-item gameList" data-ng-repeat="game in namedGames  | filter: searchText | orderBy: '-date'" data-ng-click="start(game,$event)" data-ng-if="!game.finished">
                             <div class="row">
-                                <div class="col-lg-5 leftMargin10 text-muted pull-left text-left" >#{{game.id}}</div>
-                                <div class="col-lg-5 rightMargin10 text-muted pull-right text-right">{{showDate(game.date)}}</div>
-                                <div class="col-lg-5 leftMargin10 pull-left text-uppercase">{{showOpponent(game)}}</div>
-                                <div class="col-lg-5 rightMargin10 pull-right text-uppercase text-right">{{showMove(game)}}</div>
+                                <div class="col-xs-8"><span class="leftMargin10 pull-left" style="font-size: 18px;">{{showOpponent(game)}}</span></div>
+                                <div class="col-xs-4" ><span class="rightMargin10 text-muted pull-right text-right">#{{game.id}}</span></div>
+                                <div class="col-xs-6"><span class="leftMargin10 pull-left text-left">{{showMove(game)}}</span></div>
+                                <div class="col-xs-6"><span class="rightMargin10 pull-right text-right text-muted">{{showDate(game.date)}}</span></div>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-8">
-        <div class="row">
-            <div class="col-lg-3">
-                <span id="gameHistory"></span>
+    <div id="gameArea" class="col-sm-9">
+        <div class="row" data-ng-if="!newGame && gameSelected">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-6" id="board"></div>
+                    <div class="col-sm-4">
+                        <div class="row">
+                            <div class="col-sm-12 pull-right">
+                                <div class="btn myBlockBtn btn-block btn-danger pull-right" data-ng-click="giveUpGame()">Give up <i class="fa fa-frown-o" aria-hidden="true"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-7" id="board"></div>
-            <div class="col-lg-2">
-
+        </div>
+        <div class="row" data-ng-if="newGame">
+            <div class="col-sm-6">
+                <div class="list-group">
+                    <a class="list-group-item text-center text-uppercase" style="cursor: pointer" data-ng-click="startComputerGame($event)">Player vs computer</a>
+                </div>
             </div>
+            <div class="col-sm-6">
+                <div class="list-group" style="">
+                    <a class="list-group-item text-center text-uppercase" style="cursor: pointer" data-ng-click="showPlayerPicker($event)">Player vs Player</a>
+                </div>
+            </div>
+            <div class="col-sm-12" style="margin-top: 10px;" data-ng-if="playerPicker">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="list-group">
+                            <a class="list-group-item text-center text-uppercase" style="cursor: pointer; margin-bottom: 20px;" data-ng-click="sendRandomInvite()">Random player</a>
+                            <div class="header"><i class="fa fa-users" aria-hidden="true"></i> Friends</div>
+                            <a class="list-group-item text-center text-uppercase" style="cursor: pointer" data-ng-repeat="friend in Friends" data-ng-click="sendInvite(friend)">{{friend.login}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" data-ng-if="computerGame">
+            <div class="col-xs-3"></div>
+            <div class="col-sm-6" id="boardComputer"></div>
+            <div class="col-xs-3"></div>
         </div>
     </div>
 </div>

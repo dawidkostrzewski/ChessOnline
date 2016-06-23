@@ -17,4 +17,6 @@ public abstract interface UserServices {
     public User addNewUser(User user) throws EJBTransactionRolledbackException;
 
     public User updateUser(User user) throws EJBTransactionRolledbackException;
+
+    public void deleteUser(Long id) throws EJBTransactionRolledbackException;
 }

@@ -1,80 +1,139 @@
 <div class="col-sm-12" ng-init="init()">
     <div class="row">
-        <div class="col-sm-8"></div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="row">
+                <div class="header"><i class="fa fa-users" aria-hidden="true"></i> Friends</div>
                 <div class="col-sm-12">
-                    <div class="row">
-                        <div class="col-sm-12 header"><i class="fa fa-envelope-o"></i> Invites</div>
-                    </div>
-                    <div class="row list-group" style="overflow-y: auto; margin-bottom: 25px; max-height: 200px;">
-                        <div class="col-sm-12 myBack list-group-item" data-ng-repeat="invite in Invites" data-ng-if="invite.playable">
-                            <div class="col-sm-5" style="margin-top: 5px;">{{showDate(invite.creationtime)}}</div>
-                            <div class="col-sm-4 text-uppercase" style="margin-top: 5px;">{{getSenderLogin(invite.senderId)}}</div>
-                            <div class="col-sm-3"><div class="btn btn-success" data-ng-click="acceptInvite(invite)"><i class="fa fa-check"></i> Accept</div></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <div class="row">
-                        <div class="col-sm-12 header"><i class="fa fa-comment-o"></i> Messages</div>
-                    </div>
-                    <div class="row" style="overflow-y: auto; margin-bottom: 10px; max-height: 350px;">
-                        <div class="col-sm-12" data-ng-repeat="message in Messages">
-                            <div class="panel panel-info" data-ng-if="message.type == 'System' || message.type == 'User' ">
-                                <div class="panel-heading">
-                                    <span>{{showDate(message.creationtime)}}</span>
-                                    <span class="pull-right" style="cursor: pointer;" data-ng-click="removeMessage(message)"><i class="fa fa-times"></i></span>
-                                    <span class="pull-right rightMargin10">{{getSenderLogin(message.senderId)}}</span>
+                    <div id="invitesDiv2" class="row list-group" style="overflow-y: auto; margin-bottom: 25px;">
+                        <div class="col-sm-12 list-group-item" data-ng-repeat="friend in Friends | orderBy: '-lastactivity'">
+                            <div class="col-xs-6">
+                                <div class="row">
+                                    <div class="col-sm-12" style="font-size: 18px; margin-bottom: 7px;" data-ng-if="!checkOnline(friend.id)">
+                                        <span class="badgeOffline"></span><span>{{getSenderLogin(friend.id)}}</span>
+                                    </div>
+                                    <div class="col-sm-12" style="font-size: 18px; margin-bottom: 7px;" data-ng-if="checkOnline(friend.id)">
+                                        <span class="badgeOnline"></span><span>{{getSenderLogin(friend.id)}}</span>
+                                    </div>
+                                    <div class="col-sm-12 text-muted" style="font-size: 15px;">{{showDate(friend.lastactivity)}}</div>
                                 </div>
-                                <div class="panel-body">{{message.text}}</div>
                             </div>
-                            <div class="panel panel-success" data-ng-if="message.type == 'Win'">
-                                <div class="panel-heading">
-                                    <span>{{showDate(message.creationtime)}}</span>
-                                    <span class="pull-right" data-toggle="modal" data-target="#myModal" style="cursor: pointer;"><i class="fa fa-times"></i></span>
-                                    <span class="pull-right rightMargin10">{{getSenderLogin(message.senderId)}}</span>
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-sm-12"><div class="btn myBtn btn-primary pull-right" style="margin-bottom: 5px;" data-ng-click="sendInvite(friend)"><i class="fa fa-plus" aria-hidden="true"></i> Invite</div></div>
+                                    <div class="col-sm-12"><div class="btn myBtn btn-primary pull-right" data-ng-click="changeShowMessage(friend)"><i class="fa fa-comment"></i> Message</div></div>
                                 </div>
-                                <div class="panel-body">{{message.text}}</div>
                             </div>
-                            <div class="panel panel-danger" data-ng-if="message.type == 'Lost'">
-                                <div class="panel-heading">
-                                    <span>{{showDate(message.creationtime)}}</span>
-                                    <span class="pull-right" data-toggle="modal" data-target="#myModal" style="cursor: pointer;"><i class="fa fa-times"></i></span>
-                                    <span class="pull-right rightMargin10">{{getSenderLogin(message.senderId)}}</span>
+                            <div class="col-sm-12" data-ng-attr-id="{{'row_' + friend.login.replace('.','_')}}" style="margin-top: 5px; display: none;">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <textarea data-ng-attr-id="{{'Message_' + friend.login.replace('.','_')}}" class="form-control pull-right" placeholder="Message text"></textarea>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-12" style="padding-right: 0; margin-top: 5px;">
+                                            <div class="btn myBtn btn-danger pull-right" style="margin-left: 10px;" data-ng-click="changeShowMessage(friend)"><i class="fa fa-times"></i> Cancel</div>
+                                            <div class="btn myBtn btn-success pull-right" data-ng-click="sendUserMessage(friend)"><i class="fa fa-check"></i> Send</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="panel-body">{{message.text}}</div>
-                            </div>
-                            <div class="panel panel-warning" data-ng-if="message.type == 'Tie'">
-                                <div class="panel-heading">
-                                    <span>{{showDate(message.creationtime)}}</span>
-                                    <span class="pull-right" data-toggle="modal" data-target="#myModal" style="cursor: pointer;"><i class="fa fa-times"></i></span>
-                                    <span class="pull-right rightMargin10">{{getSenderLogin(message.senderId)}}</span>
-                                </div>
-                                <div class="panel-body">{{message.text}}</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-4">
+            <div class="header"><i class="fa fa-comments" aria-hidden="true"></i> Messages</div>
+            <div id="messagesDiv" class="row" style="overflow-y: auto; margin-bottom: 10px;">
+                <div class="col-sm-12" data-ng-repeat="message in Messages | orderBy : '-creationtime'">
+                    <div class="panel panel-info" data-ng-if="message.type == 'System' || message.type == 'User' ">
+                        <div class="panel-heading">
+                            <span class="">{{getSenderLogin(message.senderId)}}</span>
+                            <span style="margin-left: 10px; font-size: small;" class="text-muted">{{showDate(message.creationtime)}}</span>
+                            <span class="pull-right" style="cursor: pointer;" data-ng-click="removeMessage(message)"><i class="fa fa-times"></i></span>
+                        </div>
+                        <div class="panel-body">{{message.text}}</div>
+                    </div>
+                    <div class="panel panel-info" data-ng-if="message.type == 'Invite' ">
+                        <div class="panel-heading">
+                            <span class="">{{getSenderLogin(message.senderId)}}</span>
+                            <span style="margin-left: 10px; font-size: small;" class="text-muted">{{showDate(message.creationtime)}}</span>
+                            <span class="pull-right" style="cursor: pointer;" data-ng-click="removeMessage(message)"><i class="fa fa-times"></i></span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-12">{{message.text}}</div>
+                                <div class="col-xs-12 pull-right">
+                                    <div class="btn myBtn btn-info pull-right" data-ng-click="refuseFriendInvite(message)"><i class="fa fa-times"></i>Refuse</div>
+                                    <div class="btn myBtn btn-primary pull-right" style="margin-right: 5px;" data-ng-click="acceptFriendInvite(message)"><i class="fa fa-check"></i> Accept</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-success" data-ng-if="message.type == 'Win'">
+                        <div class="panel-heading">
+                            <span class="">{{getSenderLogin(message.senderId)}}</span>
+                            <span style="margin-left: 10px; font-size: small;" class="text-muted">{{showDate(message.creationtime)}}</span>
+                            <span class="pull-right" style="cursor: pointer;" data-ng-click="removeMessage(message)"><i class="fa fa-times"></i></span>
+                        </div>
+                        <div class="panel-body">{{message.text}}</div>
+                    </div>
+                    <div class="panel panel-danger" data-ng-if="message.type == 'Lost'">
+                        <div class="panel-heading">
+                            <span class="" >{{getSenderLogin(message.senderId)}}</span>
+                            <span style="margin-left: 10px; font-size: small;" class="text-muted">{{showDate(message.creationtime)}}</span>
+                            <span class="pull-right" style="cursor: pointer;" data-ng-click="removeMessage(message)"><i class="fa fa-times"></i></span>
+                        </div>
+                        <div class="panel-body">{{message.text}}</div>
+                    </div>
+                    <div class="panel panel-warning" data-ng-if="message.type == 'Tie'">
+                        <div class="panel-heading">
+                            <span class="">{{getSenderLogin(message.senderId)}}</span>
+                            <span style="margin-left: 10px; font-size: small;" class="text-muted">{{showDate(message.creationtime)}}</span>
+                            <span class="pull-right" style="cursor: pointer;" data-ng-click="removeMessage(message)"><i class="fa fa-times"></i></span>
+                        </div>
+                        <div class="panel-body">{{message.text}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3">
+            <div class="row">
+                <div class="header"><i class="fa fa-user-plus" aria-hidden="true"></i> Invites</div>
+                <div class="col-sm-12">
+                    <div id="invitesDiv" class="row list-group" style="overflow-y: auto; margin-bottom: 25px;">
+                        <div class="col-sm-12 list-group-item" data-ng-repeat="invite in Invites" data-ng-if="invite.playable">
+                            <div class="col-xs-6">
+                                <div class="row">
+                                    <div class="col-sm-12" style="font-size: 18px; margin-bottom: 7px;">{{getSenderLogin(invite.senderId)}}</div>
+                                    <div class="col-sm-12 text-muted" style="font-size: 15px;">{{showDate(invite.creationtime)}}</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-sm-12"><div class="btn myBtn btn-primary pull-right" style="margin-bottom: 5px;" data-ng-click="acceptInvite(invite)"><i class="fa fa-check"></i> Accept</div></div>
+                                    <div class="col-sm-12"><div class="btn myBtn btn-info pull-right" data-ng-click="refuseGameInvite(invite)"><i class="fa fa-times"></i> Refuse</div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-body">
-                <p>Remove this message?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger pull-right leftMargin10" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
-                <button type="button" class="btn btn-success" data-ng-click="confirmRemove()"><i class="fa fa-check"></i> Yes</button>
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Remove this message?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-right leftMargin10" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
+                    <button type="button" class="btn btn-success" data-ng-click="confirmRemove()"><i class="fa fa-check"></i> Yes</button>
+                </div>
             </div>
         </div>
-
     </div>
 </div>

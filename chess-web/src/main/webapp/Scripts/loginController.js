@@ -14,9 +14,11 @@ $(document).ready(function(){
             })
     });
     app.controller("loginController",function($scope,$http){
+        $scope.logInUser = {};
+        var loged = false;
         $scope.logIn = function(){
             if($scope.login != "" && $scope.pass != ""){
-                $http.get(globalContext.mainURL() + "/users/login/" + $scope.login)
+                $http({method: "GET", url:globalContext.mainURL() + "/users/login/" + $scope.login})
                     .then(function(response){
                         console.log(response);
                         if(response.data && response.data != ""){
@@ -24,7 +26,10 @@ $(document).ready(function(){
                                 console.log("Zalogowano");
                                 sessionStorage.setItem('actualUser',JSON.stringify(response.data));
                                 console.log(sessionStorage.getItem('actualUser'));
-                                window.location.replace("main.jsp");
+                                $scope.logInUser= response.data;
+                                $scope.logInUser.lastactivity = new Date().getTime();
+                                $scope.logInUser.online = true;
+                                loged = true;
                             }
                             else{
                                 toastr.error("Wrong password! Please try again.")
@@ -33,7 +38,15 @@ $(document).ready(function(){
                         else if(response.data == null || response.data === ""){
                             toastr.error("User with this login don't exist in database.")
                         }
-                    })
+                    });
+                setTimeout(function(){
+                    if(loged){
+                        $http({method: "PUT", url: globalContext.mainURL() + "/users/", data: $scope.logInUser})
+                            .then(function(response){
+                                window.location.replace("main.jsp");
+                            })
+                    }
+                },300)
             }
             else if($scope.login == ""){
                 toastr.error("Please enter login.")
@@ -52,6 +65,8 @@ $(document).ready(function(){
                 firstname: $scope.firstName,
                 lastname: $scope.lastName,
                 email: $scope.email,
+                online: true,
+                lastactivity: new Date().getTime(),
                 wins: 0,
                 ties: 0,
                 loses: 0,
@@ -62,7 +77,7 @@ $(document).ready(function(){
                     .success(function(response){
                         sessionStorage.setItem('actualUser',JSON.stringify(response));
                         console.log(sessionStorage.getItem('actualUser'));
-                        window.location.replace("main.html");
+                        window.location.replace("main.jsp");
                     }).error(function(){
                         toastr.error("User with this login already exist in database.")
                     });

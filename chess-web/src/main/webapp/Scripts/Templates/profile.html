@@ -1,83 +1,118 @@
-<div class="col-lg-12" ng-init="init()">
-    <div class="col-lg-3">
-        <div class="row">
-            <div class="col-lg-12 header"><i class="fa fa-info-circle"></i> Information</div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12" style="padding: 0;">
-                <blockquote>
+<div class="col-sm-12" ng-init="init()">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="row">
+                <div class="col-sm-8">
+                    <img class="img-responsive" src="https://cdn1.iconfinder.com/data/icons/unique-round-blue/93/user-256.png" alt="User">
+                </div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-12" style="margin-top: 10px;">
                     <div class="row">
-                        <div class="col-lg-12"><strong>{{showUser.login}}</strong></div>
-                        <div class="col-lg-3 padding-10 fweight">Name:</div>
-                        <div class="col-lg-9 padding-10" style="word-wrap: break-word;">{{showUser.firstname}} {{showUser.lastname}}</div>
-                        <div class="col-lg-3 padding-10 fweight">Ranking:</div>
-                        <div class="col-lg-9 padding-10">{{showPosition(showUser.id)}}</div>
-                        <div class="col-lg-3 padding-10 fweight">E-mail:</div>
-                        <div class="col-lg-9 padding-10" style="word-wrap: break-word;">{{showUser.email}}</div>
-                        <div class="col-lg-12" style="padding-top: 10px; font-size: 16px;" data-ng-if="actualUser.id != showUser.id" data-ng-click="sendInvite(showUser)"><div class="btn btn-success btn-block"><i class="fa fa-user-plus"></i> Invite</div></div>
-                        <div class="col-lg-12" style="padding-top: 10px; font-size: 16px;" data-ng-if="actualUser.id != showUser.id" data-ng-click="changeShowMessage()"><div class="btn btn-primary btn-block"><i class="fa fa-comment-o"></i> Send message</div></div>
+                        <div class="col-sm-8 text-center" style="font-size: 18px;"><strong>{{showUser.login}}</strong></div>
+                        <div class="col-sm-4"></div>
                     </div>
-                </blockquote>
-
-                <div class="col-lg-12" data-ng-if="showMessage">
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-sm-8">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-xs-8">
+                                            <span style="margin-left: 5px;">Wins</span>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <span class="badge pull-right" style="margin-right: 5px;">{{showUser.wins}}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-xs-8">
+                                            <span style="margin-left: 5px;">Loses</span>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <span class="badge pull-right" style="margin-right: 5px;">{{showUser.loses}}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-xs-8">
+                                            <span style="margin-left: 5px;">Ties</span>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <span class="badge pull-right" style="margin-right: 5px;">{{showUser.ties}}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-xs-8">
+                                            <span style="margin-left: 5px;">Points</span>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <span class="badge pull-right" style="margin-right: 5px;">{{showUser.points}}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" data-ng-if="showGames">
+            <div class="row">
+                <div class="col-sm-12 header"><i class="fa fa-gamepad"></i> Games</div>
+            </div>
+            <div id="playerGamesList" class="row profileInfo list-group" style="overflow-y: auto; overflow-x: hidden;">
+                <div class="col-sm-12 list-group-item" data-ng-repeat="game in Games">
+                    <div class="row">
+                        <div class="col-xs-2"><span style="margin-left: 5px;">#{{game.id}}</span></div>
+                        <div class="col-xs-7">Opponent: {{showOpponent(game)}}</div>
+                        <div class="col-xs-3"><div class="pull-right" style="margin-right: 5px;"><div class="btn myBtn btn-primary" data-ng-click="showUserGame(game)"><i class="fa fa-eye"></i> View</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" data-ng-if="showGame">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6">
+                            <div class="btn myBlockBtn btn-primary pull-right" style="margin-bottom: 10px;" data-ng-click="backToList()"><i class="fa fa-angle-left" aria-hidden="true"></i> Back</div>
+                        </div>
+                        <div class="col-sm-3"></div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-8" id="boardPlayer" style="margin-right: 10px;"></div>
+                        <div class="col-sm-1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="row">
+                <div class="col-sm-7 pull-right" style="padding-top: 10px; font-size: 16px;" data-ng-if="actualUser.id != showUser.id && canAdd" data-ng-click="sendFriendInvite(showUser)"><div class="btn btn-primary btn-block myBlockBtn"><i class="fa fa-user-plus"></i> Add as friend</div></div>
+                <div class="col-sm-7 pull-right" style="padding-top: 10px; font-size: 16px;" data-ng-if="actualUser.id != showUser.id" data-ng-click="sendInvite(showUser)"><div class="btn btn-primary btn-block myBlockBtn"><i class="fa fa-plus" aria-hidden="true"></i> Invite</div></div>
+                <div class="col-sm-7 pull-right" style="padding-top: 10px; font-size: 16px;" data-ng-if="actualUser.id != showUser.id" data-ng-click="changeShowMessage()"><div class="btn btn-primary btn-block myBlockBtn"><i class="fa fa-comment"></i> Send message</div></div>
+
+                <div class="col-sm-12" data-ng-if="showMessage" style="margin-top: 10px;">
+                    <div class="row">
+                        <div class="col-sm-12">
                             <textarea id="messageText" class="form-control pull-right" placeholder="Message text"></textarea>
                         </div>
-                        <div class="col-lg-12">
-                            <div class="col-lg-12" style="padding-right: 0; margin-top: 5px;">
+                        <div class="col-sm-12">
+                            <div class="col-sm-12" style="padding-right: 0; margin-top: 5px;">
                                 <div class="btn btn-danger pull-right" style="margin-left: 10px;" data-ng-click="changeShowMessage()"><i class="fa fa-times"></i> Cancel</div>
                                 <div class="btn btn-success pull-right" data-ng-click="sendUserMessage(showUser)"><i class="fa fa-check"></i> Send</div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-9">
-        <div class="row">
-            <div class="col-lg-1">
-            </div>
-            <div class="col-lg-10">
-                <div class="row">
-                    <div class="col-lg-12 header"><i class="fa fa-bar-chart"></i> Statistics</div>
-                </div>
-                <div class="row profileInfo list-group">
-                    <div class="col-lg-12 myBack list-group-item">
-                        <div class="col-lg-1">Wins</div><div class="col-lg-1 pull-right rightMargin20"><span class="badge">{{showUser.wins}}</span></div>
-                    </div>
-                    <div class="col-lg-12 myBack list-group-item">
-                        <div class="col-lg-1">Loses</div><div class="col-lg-1 pull-right rightMargin20"> <span class="badge">{{showUser.loses}}</span></div>
-                    </div>
-                    <div class="col-lg-12 myBack list-group-item">
-                        <div class="col-lg-1">Ties</div><div class="col-lg-1 pull-right rightMargin20"><span class="badge">{{showUser.ties}}</span></div>
-                    </div>
-                    <div class="col-lg-12 myBack list-group-item">
-                        <div class="col-lg-1">Points</div><div class="col-lg-1 pull-right rightMargin20"><span class="badge">{{showUser.points}}</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-1">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-1">
-            </div>
-            <div class="col-lg-10">
-                <div class="row">
-                    <div class="col-lg-12 header"><i class="fa fa-gamepad"></i> Games</div>
-                </div>
-                <div class="row profileInfo list-group">
-                    <div class="col-lg-12 myBack list-group-item" data-ng-repeat="game in Games">
-                        <div class="col-lg-1">#{{game.id}}</div>
-                        <div class="col-lg-6">Opponent: {{showOpponent(game)}}</div>
-                        <div class="col-lg-1 pull-right rightMargin30"><div class="btn btn-success"><i class="fa fa-eye"></i> View</div></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-1">
             </div>
         </div>
     </div>

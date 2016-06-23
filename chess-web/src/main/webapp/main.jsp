@@ -31,9 +31,6 @@
 <body onload="init()">
 <nav class="navbar navbar-inverse" data-ng-controller="navController">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">ChessOnline</a>
-        </div>
         <ul class="nav navbar-nav">
             <li class="active" id="Home" data-ng-click="setActiveModule('Home')"><a href="#/"><i class="fa fa-home"></i> Home</a></li>
             <li id="Profile" data-ng-click="setActiveModule('Profile')"><a href="#Profile/{{actualUser.id}}"><i class="fa fa-user"></i> Profile</a></li>
@@ -42,8 +39,8 @@
             <li id="Settings" data-ng-click="setActiveModule('Settings')"><a href="#"><i class="fa fa-cogs"></i> Settings</a></li>
         </ul>
         <ul class="pull-right nav navbar-nav">
-            <li class="pull-right"><a href="#"><div class="btn-xs btn-danger" data-ng-click="logOut()"><i class="fa fa-sign-out"></i></div></a></li>
-            <li class="pull-right"><a href="#">{{actualUser.login}}</a></li>
+            <li class="pull-right"><a><div class="btn-xs btn-danger" data-ng-click="logOut()" style="cursor: pointer;"><i class="fa fa-sign-out"></i></div></a></li>
+            <li class="pull-right"><a href="#Profile/{{actualUser.id}}">{{actualUser.login}}</a></li>
         </ul>
     </div>
 </nav>

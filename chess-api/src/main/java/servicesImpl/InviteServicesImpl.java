@@ -47,6 +47,16 @@ public class InviteServicesImpl implements InviteServices {
         }
     }
 
+    public List<Invite> getInvitesBySenderId(Long id){
+        try{
+            TypedQuery<Invite> query = em.createNamedQuery("getInvitesBySenderIdOrderByTimeDesc",Invite.class);
+            query.setParameter("userId",id);
+            return query.getResultList();
+        } catch (NoResultException e){
+            return null;
+        }
+    }
+
     public Invite createNewInvite(Invite invite) throws JMSException {
         try{
             em.persist(invite);
@@ -57,6 +67,25 @@ public class InviteServicesImpl implements InviteServices {
             return invite;
         } catch (Exception e){
             throw new JMSException(e.getMessage());
+        }
+    }
+
+    public Invite refuseInvite(Long id) throws EJBTransactionRolledbackException {
+        try{
+            Invite invite = em.find(Invite.class,id);
+            em.remove(invite);
+            return invite;
+        } catch (EJBTransactionRolledbackException e) {
+            throw new EJBTransactionRolledbackException(e.getMessage());
+        }
+    }
+
+    public void deleteInvite(Long id) throws EJBTransactionRolledbackException{
+        try{
+            Invite invite = em.find(Invite.class,id);
+            em.remove(invite);
+        } catch (EJBTransactionRolledbackException e){
+            throw new EJBTransactionRolledbackException(e.getMessage());
         }
     }
 }

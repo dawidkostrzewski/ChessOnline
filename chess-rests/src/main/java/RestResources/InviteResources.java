@@ -45,4 +45,10 @@ public class InviteResources {
     public Response getInvitesByReciverId(@PathParam("id") Long id){
         return Response.status(Response.Status.OK).entity(inviteServices.getInvitesByReciverId(id)).build();
     }
+
+    @DELETE
+    @Path("/{id}")
+    public Response refuseInvite(@PathParam("id") Long id) {
+        return Response.status(Response.Status.OK).entity(inviteServices.refuseInvite(id)).build();
+    }
 }

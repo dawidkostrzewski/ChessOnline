@@ -1,0 +1,107 @@
+<div class="col-sm-12" ng-init="init()">
+    <div class="marginleft-40">
+        <div class="col-sm-3">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="list-group">
+                        <a id="userSettings" class="list-group-item text-uppercase" style="cursor: pointer;" data-ng-click="setUserSettings()"><span style="margin-left: 5px; cursor: pointer;"><i class="fa fa-user fa-lg settingsIcon" aria-hidden="true"></i> user settings</span></a>
+                        <a id="friendsSettings" class="list-group-item text-uppercase" style="cursor: pointer;" data-ng-click="setFriendsSettings()"><span style="margin-left: 5px; cursor: pointer;"><i class="fa fa-users fa-lg settingsIcon" aria-hidden="true"></i> friends settings</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9" data-ng-if="userSettings">
+            <div class="row text-center">
+                <div class="col-sm-4">
+                    <div class="list-group" data-ng-click="changePass()">
+                        <a id="pass" class="list-group-item text-uppercase" style="cursor: pointer;">Change password</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="list-group" data-ng-click="changeEmail()">
+                        <a id="email" class="list-group-item text-uppercase" style="cursor: pointer;">Change E-mail</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="list-group" data-ng-click="changeLoginToNew()">
+                        <a id="log" class="list-group-item text-uppercase" style="cursor: pointer;">Delete account</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4" data-ng-if="changePassword">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="pwd">New password:</label>
+                            <input type="password" class="form-control" id="pwd" placeholder="Enter new password" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd2">Repeat new password:</label>
+                            <input type="password" class="form-control" id="pwd2" placeholder="Repeat new password" required="required">
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-ng-click="updateUserData()">Change password</button>
+                    </form>
+                </div>
+                <div class="col-sm-4" data-ng-if="changeMail">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="mail">New e-mail:</label>
+                            <input type="email" class="form-control" id="mail" placeholder="Enter new e-mail" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="mail2">Repeat new e-mail:</label>
+                            <input type="email" class="form-control" id="mail2" placeholder="Repeat new e-mail" required="required">
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-ng-click="updateUserData()">Change mail</button>
+                    </form>
+                </div>
+                <div class="col-sm-4" data-ng-if="deleteUser">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="pwdDelete">Enter password:</label>
+                            <input class="form-control" id="pwdDelete" placeholder="Enter password" required="required">
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-ng-click="updateUserData()">Delete account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9" data-ng-if="friendsSettings">
+            <div class="row">
+                <div class="col-sm-4" style="margin-left: 10px;">
+                    <div class="row">
+                        <div class="header"><i class="fa fa-users" aria-hidden="true"></i> Friends</div>
+                        <div class="col-sm-12">
+                            <div class="row list-group" style="overflow-y: auto; margin-bottom: 25px; cursor: pointer;">
+                                <a class="col-sm-12 list-group-item" data-ng-repeat="friend in Friends | orderBy: '-id'">
+                                    <div style="margin-left: 5px; margin-right: 5px;">
+                                        {{getSenderLogin(friend.id)}}
+                                        <div class="btn myBtn btn-primary pull-right" data-ng-click="setFriendToRemove(friend)"><i class="fa fa-times" aria-hidden="true"></i> Remove</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-4" style="margin-left: 10px;" data-ng-if="removeFriend">
+                    <div class="row">
+                        <div class="header"><i class="fa fa-question" aria-hidden="true"></i> Remove</div>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div><span>Do you want remove <b>{{getRemoveLogin()}}</b> from friends list?</span></div>
+                                </div>
+                                <div class="col-sm-11" style="margin-top: 5px;">
+                                    <div class="btn myBtn btn-danger pull-right" style="margin-left: 10px;" data-ng-click="setFriendToRemove()"><i class="fa fa-times"></i> Cancel</div>
+                                    <div class="btn myBtn btn-success pull-right" data-ng-click="removeSelectedFriend(friend)"><i class="fa fa-check"></i> Remove</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
